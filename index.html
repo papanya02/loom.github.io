@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEXUS — Identity-aware P2P runtime</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="logo">
+    <span class="logo-mark">N</span>
+    NEXUS
+  </a>
+  <a href="index.html" class="active">Home</a>
+  <a href="architecture.html">Architecture</a>
+  <a href="getting-started.html">Getting Started</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="badge-top">v0.2 · Experimental prototype</div>
+    <h1>Identity-aware<br>P2P runtime</h1>
+    <p class="tagline">
+      Modular communication layer built on the Noise Protocol Framework.
+      Stable identity, secure sessions, capability negotiation and transport selection — without replacing Noise.
+    </p>
+    <div class="hero-actions">
+      <a href="getting-started.html" class="btn btn-primary">Get Started →</a>
+      <a href="architecture.html" class="btn btn-ghost">Architecture</a>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <h2 class="section-title">What NEXUS adds</h2>
+  <p class="section-lead">
+    Noise gives you a secure channel. NEXUS turns it into a practical runtime for applications.
+  </p>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">🔑</div>
+      <h3>Stable identity</h3>
+      <p>Ed25519 root key → durable <code>nx2…</code> Peer ID. Noise session keys can rotate without changing who you are.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📜</div>
+      <h3>Root-signed certs</h3>
+      <p>After Noise XX finishes, peers exchange certificates inside the encrypted channel that bind root identity to the Noise static key.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🤝</div>
+      <h3>Capabilities</h3>
+      <p>Typed offers (<code>id</code> + <code>version</code>). Exact intersection. Base capability <code>nexus/base@2</code> is mandatory.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🛤️</div>
+      <h3>Path & transport</h3>
+      <p>Intent-aware planner. TCP is implemented today; the seam is ready for QUIC, local mesh and relays.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0.5rem;">
+  <h2 class="section-title">Implementation status</h2>
+  <p class="section-lead">Honest view of what works and what does not.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Capability</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Noise XX secure handshake</td><td><span class="badge badge-yes">Implemented</span> · via snow</td></tr>
+        <tr><td>Stable root identity (Ed25519)</td><td><span class="badge badge-yes">Implemented</span></td></tr>
+        <tr><td>Root-signed Noise key binding</td><td><span class="badge badge-yes">Implemented</span></td></tr>
+        <tr><td>Stable Peer ID pinning</td><td><span class="badge badge-yes">Implemented</span></td></tr>
+        <tr><td>Encrypted capability negotiation</td><td><span class="badge badge-yes">Implemented</span></td></tr>
+        <tr><td>TCP transport adapter</td><td><span class="badge badge-yes">Implemented</span></td></tr>
+        <tr><td>Intent-aware path planner</td><td><span class="badge badge-proto">Prototype</span> · TCP only</td></tr>
+        <tr><td>Application message + encrypted ACK</td><td><span class="badge badge-yes">Implemented</span></td></tr>
+        <tr><td>Multiple simultaneous streams</td><td><span class="badge badge-no">Not implemented</span></td></tr>
+        <tr><td>QUIC / relay / NAT traversal</td><td><span class="badge badge-no">Not implemented</span></td></tr>
+        <tr><td>DHT / peer discovery</td><td><span class="badge badge-no">Not implemented</span></td></tr>
+        <tr><td>Encrypted key storage</td><td><span class="badge badge-no">Not implemented</span></td></tr>
+        <tr><td>Independent security audit</td><td><span class="badge badge-no">Not performed</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0.5rem;">
+  <h2 class="section-title">Noise vs NEXUS</h2>
+  <p class="section-lead">Different layers. Complementary, not competing.</p>
+
+  <div class="split">
+    <div class="card">
+      <h3>🔐 Noise</h3>
+      <p>
+        Cryptographic foundation. Secure session (Noise XX + ChaChaPoly + BLAKE2s).
+        Encryption, forward secrecy, key confirmation. Used by WireGuard, WhatsApp, Lightning and many others.
+      </p>
+      <p style="margin-top:0.8rem;">
+        <a href="https://noiseprotocol.org/" target="_blank" rel="noopener">noiseprotocol.org →</a>
+      </p>
+    </div>
+    <div class="card">
+      <h3>⚡ NEXUS</h3>
+      <p>
+        Application runtime on top of Noise. Stable identity, root-signed certificates,
+        Peer ID pinning, capability negotiation and transport selection.
+      </p>
+      <p style="margin-top:0.8rem;">
+        <a href="architecture.html">Architecture →</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>NEXUS 0.2 · Experimental prototype · Apache-2.0</p>
+  <div class="links">
+    <a href="architecture.html">Architecture</a>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="https://noiseprotocol.org/" target="_blank" rel="noopener">Noise Protocol</a>
+    <a href="https://github.com/mcginty/snow" target="_blank" rel="noopener">snow (Rust)</a>
+  </div>
+</footer>
+
+</body>
+</html>

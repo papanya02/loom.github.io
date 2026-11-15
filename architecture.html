@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture — NEXUS</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="logo">
+    <span class="logo-mark">N</span>
+    NEXUS
+  </a>
+  <a href="index.html">Home</a>
+  <a href="architecture.html" class="active">Architecture</a>
+  <a href="getting-started.html">Getting Started</a>
+</nav>
+
+<header class="hero" style="padding: 4rem 1.5rem 3.2rem;">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="badge-top">Design</div>
+    <h1>Architecture</h1>
+    <p class="tagline">
+      Clear module boundaries. Identity, crypto, capabilities, path and transport are separated so future work can land behind stable APIs.
+    </p>
+  </div>
+</header>
+
+<section class="section">
+  <h2 class="section-title">Module map</h2>
+  <p class="section-lead">Runtime workflow and the pieces it owns.</p>
+  <div class="mono-block">Applications
+    │
+NEXUS Runtime (node.rs)
+    ├── Identity           (identity.rs)
+    ├── Secure sessions    (crypto.rs → snow)
+    ├── Capability negot.  (capability.rs)
+    ├── Path policy        (path.rs)
+    ├── Transport adapters (transport.rs · TCP)
+    └── Wire envelopes     (wire.rs)</div>
+</section>
+
+<section class="section" style="padding-top: 0.5rem;">
+  <h2 class="section-title">Trust & identity</h2>
+  <p class="section-lead">
+    Stable identity is an Ed25519 root. A separate Noise X25519 key protects the session.
+  </p>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">🆔</div>
+      <h3>Peer ID</h3>
+      <p><code>nx2</code> + hex(BLAKE3(<code>"NEXUS-Peer-ID-v2"</code> ‖ root_pk))</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">✍️</div>
+      <h3>Certificate</h3>
+      <p>Root signs <code>"NEXUS-NOISE-KEY-CERT-v1"</code> ‖ root_pk ‖ noise_static_pk. Sent only after Noise encryption is up.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">✅</div>
+      <h3>Verification</h3>
+      <p>Noise finished → cert Noise key matches handshake static → signature valid → Peer ID matches pin.</p>
+    </div>
+  </div>
+
+  <p style="text-align:center; margin-top:1.6rem; color:var(--text-muted); font-size:0.95rem;">
+    Pin-based trust. No global directory. No automatic web of trust.
+  </p>
+</section>
+
+<section class="section" style="padding-top: 0.5rem;">
+  <h2 class="section-title">Cryptographic profile</h2>
+  <p class="section-lead">From RFC-0002 · NEXUS 0.2</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Item</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Noise name</td><td><code>Noise_XX_25519_ChaChaPoly_BLAKE2s</code></td></tr>
+        <tr><td>Prologue</td><td><code>NEXUS/0.2;identity-cert-v1;capability-v1</code></td></tr>
+        <tr><td>Protocol version</td><td><code>nexus/0.2</code></td></tr>
+        <tr><td>Framing</td><td>2-byte big-endian length · max 65 535 bytes</td></tr>
+        <tr><td>Base capability</td><td><code>nexus/base@2</code> (mandatory)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="text-align:center; margin-top:1rem; color:var(--text-muted); font-size:0.92rem;">
+    NEXUS does not reimplement DH, AEAD or Noise state machines — it uses
+    <a href="https://github.com/mcginty/snow" target="_blank" rel="noopener">snow</a>.
+  </p>
+</section>
+
+<section class="section" style="padding-top: 0.5rem;">
+  <h2 class="section-title">Path planning</h2>
+  <p class="section-lead">
+    Applications choose an intent. The planner scores candidates.
+  </p>
+  <div class="split">
+    <div class="card">
+      <h3>Intents</h3>
+      <p><code>balanced</code> · <code>low-latency</code> · <code>privacy-preferred</code> · <code>reliable</code></p>
+    </div>
+    <div class="card">
+      <h3>Today</h3>
+      <p>Only the TCP candidate exists, so every intent still selects TCP. The API is the seam for future transports.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0.5rem;">
+  <h2 class="section-title">Non-goals (0.2)</h2>
+  <p class="section-lead">Explicitly out of scope for this prototype.</p>
+  <ul class="clean">
+    <li>DHT or peer discovery</li>
+    <li>Routing between third-party peers</li>
+    <li>NAT traversal or relays</li>
+    <li>QUIC / UDP adapters</li>
+    <li>Offline delivery / store-and-forward</li>
+    <li>Multi-stream multiplexing</li>
+    <li>Session migration or resumption</li>
+    <li>Global trust / reputation system</li>
+  </ul>
+</section>
+
+<footer>
+  <p>NEXUS 0.2 · Experimental prototype · Apache-2.0</p>
+  <div class="links">
+    <a href="index.html">Home</a>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="https://noiseprotocol.org/noise.html" target="_blank" rel="noopener">Noise Spec</a>
+  </div>
+</footer>
+
+</body>
+</html>
