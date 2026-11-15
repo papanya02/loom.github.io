@@ -24,14 +24,14 @@
 <header class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
-    <div class="badge-top">v0.2 · Experimental prototype</div>
+    <div class="badge-top">Experimental prototype</div>
     <h1>Identity-aware<br>P2P runtime</h1>
     <p class="tagline">
       Modular communication layer built on the Noise Protocol Framework.
       Stable identity, secure sessions, capability negotiation and transport selection — without replacing Noise.
     </p>
     <div class="hero-actions">
-      <a href="getting-started.html" class="btn btn-primary">Get Started →</a>
+      <a href="https://github.com/papanya02/loom-protocol" class="btn btn-primary" target="_blank" rel="noopener">Contribute →</a>
       <a href="architecture.html" class="btn btn-ghost">Architecture</a>
     </div>
   </div>
@@ -61,7 +61,7 @@
     </div>
     <div class="feature">
       <div class="feature-icon">🛤️</div>
-      <h3>Path & transport</h3>
+      <h3>Path &amp; transport</h3>
       <p>Intent-aware planner. TCP is implemented today; the seam is ready for QUIC, local mesh and relays.</p>
     </div>
   </div>
@@ -96,40 +96,36 @@
 </section>
 
 <section class="section" style="padding-top: 0.5rem;">
-  <h2 class="section-title">Noise vs NEXUS</h2>
-  <p class="section-lead">Different layers. Complementary, not competing.</p>
+  <h2 class="section-title">What NEXUS is building toward</h2>
+  <p class="section-lead">The vision and where the roadmap is headed.</p>
 
   <div class="split">
     <div class="card">
-      <h3>🔐 Noise</h3>
+      <h3>🔐 Cryptographic core</h3>
       <p>
-        Cryptographic foundation. Secure session (Noise XX + ChaChaPoly + BLAKE2s).
-        Encryption, forward secrecy, key confirmation. Used by WireGuard, WhatsApp, Lightning and many others.
-      </p>
-      <p style="margin-top:0.8rem;">
-        <a href="https://noiseprotocol.org/" target="_blank" rel="noopener">noiseprotocol.org →</a>
+        A secure channel from day one: Noise XX handshake with ChaChaPoly and BLAKE2s,
+        forward secrecy and key confirmation. Built on the proven
+        <code>snow</code> implementation rather than a custom state machine.
       </p>
     </div>
     <div class="card">
-      <h3>⚡ NEXUS</h3>
+      <h3>🚀 Future plans</h3>
       <p>
-        Application runtime on top of Noise. Stable identity, root-signed certificates,
-        Peer ID pinning, capability negotiation and transport selection.
-      </p>
-      <p style="margin-top:0.8rem;">
-        <a href="architecture.html">Architecture →</a>
+        Hardening and review, then additional transports (QUIC, local mesh, relays),
+        peer discovery, NAT traversal, multi-stream support and encrypted key storage —
+        all behind stable APIs so they land without breaking the core.
       </p>
     </div>
   </div>
 </section>
 
 <footer>
-  <p>NEXUS 0.2 · Experimental prototype · Apache-2.0</p>
+  <p>NEXUS · Experimental prototype · Apache-2.0</p>
   <div class="links">
     <a href="architecture.html">Architecture</a>
     <a href="getting-started.html">Getting Started</a>
+    <a href="https://github.com/papanya02/loom-protocol" target="_blank" rel="noopener">GitHub</a>
     <a href="https://noiseprotocol.org/" target="_blank" rel="noopener">Noise Protocol</a>
-    <a href="https://github.com/mcginty/snow" target="_blank" rel="noopener">snow (Rust)</a>
   </div>
 </footer>
 
