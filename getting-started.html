@@ -27,115 +27,25 @@
     <div class="badge-top">Quick start</div>
     <h1>Getting Started</h1>
     <p class="tagline">
-      Build the binary, generate identities and run a full authenticated exchange on localhost.
+      Source, build instructions, CLI and local test flow live in the repository.
     </p>
   </div>
 </header>
 
 <section class="section">
-  <h2 class="section-title">Requirements</h2>
-  <p class="section-lead">Rust 1.85+ · Cargo · Windows / Linux / macOS</p>
-  <p style="text-align:center;">
-    Install from <a href="https://rustup.rs/" target="_blank" rel="noopener">rustup.rs</a>
+  <h2 class="section-title">Repository</h2>
+  <p class="section-lead">
+    Clone the project, follow the README, and run the local Alice / Bob exchange.
   </p>
-</section>
 
-<section class="section" style="padding-top: 0.5rem;">
-  <h2 class="section-title">Build & test</h2>
-  <pre><code>cargo fmt
-cargo test
-cargo build --release
-cargo clippy --all-targets --all-features -- -D warnings</code></pre>
-</section>
-
-<section class="section" style="padding-top: 0.5rem;">
-  <h2 class="section-title">CLI reference</h2>
-  <p class="section-lead">All commands defined in <code>cli.rs</code> via clap.</p>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr><th>Command</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>nexus --help</code> / <code>-h</code></td>
-          <td>Show help for the program or a subcommand</td>
-        </tr>
-        <tr>
-          <td><code>nexus --version</code> / <code>-V</code></td>
-          <td>Print NEXUS version</td>
-        </tr>
-        <tr>
-          <td><code>nexus keygen --key PATH</code></td>
-          <td>Generate identity (Ed25519 root + Noise X25519). Refuses overwrite</td>
-        </tr>
-        <tr>
-          <td><code>nexus id --key PATH</code></td>
-          <td>Print stable Peer ID (<code>nx2…</code>)</td>
-        </tr>
-        <tr>
-          <td><code>nexus transports</code></td>
-          <td>List implemented (<code>tcp</code>) and planned transports</td>
-        </tr>
-        <tr>
-          <td><code>nexus listen --key PATH --allow-peer-id ID [--bind ADDR]</code></td>
-          <td>Accept one authenticated connection (default <code>127.0.0.1:7000</code>)</td>
-        </tr>
-        <tr>
-          <td><code>nexus send --key PATH --peer ADDR --peer-id ID --message TEXT [--intent …]</code></td>
-          <td>Connect, authenticate, negotiate and send one encrypted message</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="cta-box">
+    <p>
+      Full source, docs, roadmap and contribution notes are on GitHub.
+    </p>
+    <a href="https://github.com/papanya02/loom-protocol" class="btn btn-primary" target="_blank" rel="noopener">
+      Contribute →
+    </a>
   </div>
-
-  <h3 style="margin: 2rem 0 0.8rem; font-size:1.1rem; text-align:center;">--intent values</h3>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr><th>Value</th><th>Description</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><code>balanced</code></td><td>Default trade-off (default)</td></tr>
-        <tr><td><code>low-latency</code></td><td>Prefer lowest estimated latency</td></tr>
-        <tr><td><code>privacy-preferred</code></td><td>Prefer highest privacy score</td></tr>
-        <tr><td><code>reliable</code></td><td>Prefer highest reliability score</td></tr>
-      </tbody>
-    </table>
-  </div>
-  <p style="text-align:center; margin-top:0.8rem; color:var(--text-muted); font-size:0.9rem;">
-    Only TCP is available today — all intents still select TCP.
-  </p>
-</section>
-
-<section class="section" style="padding-top: 0.5rem;">
-  <h2 class="section-title">Local test</h2>
-  <p class="section-lead">Three steps · two terminals</p>
-
-  <h3 style="font-size:1rem; margin-bottom:0.5rem; color:var(--text-muted);">1 · Generate identities</h3>
-  <pre><code>cargo run --release -- keygen --key data/alice.json
-cargo run --release -- keygen --key data/bob.json
-cargo run --release -- id --key data/alice.json
-cargo run --release -- id --key data/bob.json</code></pre>
-
-  <h3 style="font-size:1rem; margin:1.4rem 0 0.5rem; color:var(--text-muted);">2 · Start Bob (listener)</h3>
-  <pre><code>cargo run --release -- listen \
-  --key data/bob.json \
-  --bind 127.0.0.1:7000 \
-  --allow-peer-id ALICE_NX2_ID</code></pre>
-
-  <h3 style="font-size:1rem; margin:1.4rem 0 0.5rem; color:var(--text-muted);">3 · Alice sends</h3>
-  <pre><code>cargo run --release -- send \
-  --key data/alice.json \
-  --peer 127.0.0.1:7000 \
-  --peer-id BOB_NX2_ID \
-  --message "Hello from NEXUS 0.2" \
-  --intent balanced</code></pre>
-
-  <p style="margin-top:1.2rem; color:var(--text-muted); font-size:0.93rem; text-align:center;">
-    Expected flow: TCP → Noise XX → encrypted certificates → Peer ID pin → capabilities → data + ACK
-  </p>
 </section>
 
 <section class="section" style="padding-top: 0.5rem;">
@@ -148,10 +58,11 @@ cargo run --release -- id --key data/bob.json</code></pre>
 </section>
 
 <footer>
-  <p>NEXUS 0.2 · Experimental prototype · Apache-2.0</p>
+  <p>NEXUS · Experimental prototype · Apache-2.0</p>
   <div class="links">
     <a href="index.html">Home</a>
     <a href="architecture.html">Architecture</a>
+    <a href="https://github.com/papanya02/loom-protocol" target="_blank" rel="noopener">GitHub</a>
     <a href="https://noiseprotocol.org/" target="_blank" rel="noopener">Noise Protocol</a>
   </div>
 </footer>
