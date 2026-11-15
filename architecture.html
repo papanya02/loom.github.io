@@ -47,26 +47,28 @@ NEXUS Runtime (node.rs)
 </section>
 
 <section class="section" style="padding-top: 0.5rem;">
-  <h2 class="section-title">Trust & identity</h2>
+  <h2 class="section-title">Trust &amp; identity</h2>
   <p class="section-lead">
     Stable identity is an Ed25519 root. A separate Noise X25519 key protects the session.
   </p>
 
   <div class="features">
     <div class="feature">
-      <div class="feature-icon">🆔</div>
+      <div class="feature-icon">ID</div>
       <h3>Peer ID</h3>
-      <p><code>nx2</code> + hex(BLAKE3(<code>"NEXUS-Peer-ID-v2"</code> ‖ root_pk))</p>
+      <p>Derived from the root public key. Stable across Noise key rotation.</p>
+      <div class="formula">nx2 + hex(BLAKE3("NEXUS-Peer-ID-v2" ‖ root_pk))</div>
     </div>
     <div class="feature">
-      <div class="feature-icon">✍️</div>
+      <div class="feature-icon">✓</div>
       <h3>Certificate</h3>
-      <p>Root signs <code>"NEXUS-NOISE-KEY-CERT-v1"</code> ‖ root_pk ‖ noise_static_pk. Sent only after Noise encryption is up.</p>
+      <p>Root signs a domain-separated binding of the Noise static key. Sent only after the channel is encrypted.</p>
+      <div class="formula">"NEXUS-NOISE-KEY-CERT-v1" ‖ root_pk ‖ noise_static_pk</div>
     </div>
     <div class="feature">
-      <div class="feature-icon">✅</div>
+      <div class="feature-icon">OK</div>
       <h3>Verification</h3>
-      <p>Noise finished → cert Noise key matches handshake static → signature valid → Peer ID matches pin.</p>
+      <p>Noise finished → cert key matches handshake static → signature valid → Peer ID matches the local pin.</p>
     </div>
   </div>
 
@@ -77,7 +79,7 @@ NEXUS Runtime (node.rs)
 
 <section class="section" style="padding-top: 0.5rem;">
   <h2 class="section-title">Cryptographic profile</h2>
-  <p class="section-lead">From RFC-0002 · NEXUS 0.2</p>
+  <p class="section-lead">The crypto functions the runtime is built on.</p>
 
   <div class="table-wrap">
     <table>
@@ -117,7 +119,7 @@ NEXUS Runtime (node.rs)
 </section>
 
 <section class="section" style="padding-top: 0.5rem;">
-  <h2 class="section-title">Non-goals (0.2)</h2>
+  <h2 class="section-title">Non-goals</h2>
   <p class="section-lead">Explicitly out of scope for this prototype.</p>
   <ul class="clean">
     <li>DHT or peer discovery</li>
@@ -131,11 +133,21 @@ NEXUS Runtime (node.rs)
   </ul>
 </section>
 
+<section class="section" style="padding-top: 0.5rem;">
+  <h2 class="section-title">Contribute</h2>
+  <p class="section-lead">Roadmap, open issues and the next milestones live in the repository.</p>
+  <div class="cta-box">
+    <p>See what is planned next and where help is useful.</p>
+    <a href="https://github.com/papanya02/loom-protocol" class="btn btn-primary" target="_blank" rel="noopener">Contribute →</a>
+  </div>
+</section>
+
 <footer>
-  <p>NEXUS 0.2 · Experimental prototype · Apache-2.0</p>
+  <p>NEXUS · Experimental prototype · Apache-2.0</p>
   <div class="links">
     <a href="index.html">Home</a>
     <a href="getting-started.html">Getting Started</a>
+    <a href="https://github.com/papanya02/loom-protocol" target="_blank" rel="noopener">GitHub</a>
     <a href="https://noiseprotocol.org/noise.html" target="_blank" rel="noopener">Noise Spec</a>
   </div>
 </footer>
